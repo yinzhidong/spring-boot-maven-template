@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>File Browser</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet"
+        type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/quasar@1.20.2/dist/quasar.min.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+    <div id="app">
+
+        <div>
+            <q-input outlined v-model="currentPath" label="edit currentPath"></q-input>
+            <q-btn label="" @click="handleEditPath">Refresh</q-btn>
+        </div>
+
+
+        <div>
+            <h1>File Browser</h1>
+
+            <p>Current Path: {{ currentPath }}</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr v-for="item in fileList" :key="item.path">
+                        <td>
+                            <a v-if="item.directory" :href="'/' + item.path">{{ item.name }}</a>
+                            <span v-else>{{ item.name }}</span>
+                        </td>
+                        <td v-html='fileHref(item)'></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>目录文件数：{{totalFiles}}</p>
+        </div>
+
+        
+    </div>
+
+</body>
+
+
+
+
+
+<!--https://cdn.bootcss.com/vue/2.5.20/vue.min.js-->
+<!-- http://v1.quasarchs.com/start/umd/ -->
+
+<script src="https://cdn.jsdelivr.net/npm/vue@^2.0.0/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/quasar@1.20.2/dist/quasar.umd.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/axios/1.3.4/axios.min.js"></script>
+
+<script type="module">
+    import { initAxios, initVue } from "./static/js/axious-config.js";
+    import { getFileList, downloadFile, editPath } from "./static/js/api/files-service.js";
+
+    initAxios();
+    initVue({
+        downloadFile, 
+    });
+
+   
+
+
+    // 配置quasar
+    window.quasarConfig = {
+        brand: { // 这不适用于IE 11
+            primary: '#e46262',
+            // ... 或者所有其它品牌颜色
+        },
+        // notify: {...}, // Notify Quasar插件的默认选项集
+        // loading: {...}, // Loading Quasar插件的默认选项集
+        // loadingBar: {...}, // LoadingBar Quasar插件的设置
+    }
+
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            currentPath: '/',
+            fileList: []
+        },
+        created: function () {
+            // 在实例创建时调用loadData方法
+            this.loadData();
+        },
+
+        computed: {
+            totalFiles() {
+                return this.fileList.length;
+            }
+        },
+
+        filters: {
+            isDirectory: function (item) {
+                console.log(item);
+                // return item.type === 'directory' ? '目录' : '文件';
+                return item.type === 'directory' ? '目录' : `<a href="">百度</a>`;
+            }
+        },
+
+        methods: {
+            loadData: async function () {
+                // 发送HTTP请求获取文件列表数据
+                // let response = await axios.get('/api/files' + this.currentPath);
+
+                this.fileList = await getFileList();
+            },
+
+            handleEditPath: async function() {
+                await editPath(this.currentPath);
+                await this.loadData();
+            }
+        }
+    });
+</script>
+
+</html>

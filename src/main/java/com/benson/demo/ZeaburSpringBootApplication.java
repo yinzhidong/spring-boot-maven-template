@@ -1,13 +1,13 @@
-package com.benson.ZeaburMavenTest;
+package com.benson.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ZeaburMavenTestApplication {
+public class ZeaburSpringBootApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ZeaburMavenTestApplication.class, args);
+		SpringApplication.run(ZeaburSpringBootApplication.class, args);
 	}
 
 }
