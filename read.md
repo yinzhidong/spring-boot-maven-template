@@ -1,3 +1,5 @@
+https://github.com/graalvm/graalvm-ce-builds/releases
+
 
 https://github.com/zeabur/spring-boot-maven-template
 
@@ -5,7 +7,6 @@ https://github.dev/yinzhidong/spring-boot-maven-template
 
 
 https://yinzhidong-curly-computing-machine-9669jpxg4grfpj4q.github.dev/
-
 
 
 https://dash.zeabur.com/projects/641913f5662d5093da1f48fa/services/64191f3b662d5093da1f4974?envID=641913f5783a618d07525b0b
@@ -94,5 +95,33 @@ gu list
 native-image -jar /workspaces/spring-boot-maven-template/target/ZeaburMaven-0.0.1-SNAPSHOT.jar java-app
 
 chmod +x java-app && ./java-app
+
+```
+
+
+
+
+```shell
+
+native-image -jar /workspaces/spring-boot-maven-template/target/ZeaburMaven-0.0.1-SNAPSHOT.jar \
+--no-fallback \
+--initialize-at-build-time=org.springframework.util.unit.DataSize \
+--initialize-at-build-time=org.slf4j.MDC \
+--initialize-at-build-time=ch.qos.logback.classic.Level \
+--initialize-at-build-time=ch.qos.logback.classic.Logger \
+--initialize-at-build-time=ch.qos.logback.core.util.StatusPrinter \
+--initialize-at-build-time=ch.qos.logback.core.status.StatusBase \
+--initialize-at-build-time=ch.qos.logback.core.status.InfoStatus \
+--initialize-at-build-time=ch.qos.logback.core.spi.AppenderAttachableImpl \
+--initialize-at-build-time=org.slf4j.LoggerFactory \
+--initialize-at-build-time=ch.qos.logback.core.util.Loader \
+--initialize-at-build-time=org.slf4j.impl.StaticLoggerBinder \
+--initialize-at-build-time=ch.qos.logback.classic.spi.ThrowableProxy \
+--initialize-at-build-time=ch.qos.logback.core.CoreConstants \
+--report-unsupported-elements-at-runtime \
+--allow-incomplete-classpath \
+-H:+ReportExceptionStackTraces \
+java-app
+
 
 ```

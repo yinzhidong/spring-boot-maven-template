@@ -54,5 +54,28 @@ gu list
 
 
 #cd /workspaces/spring-boot-maven-template
-#native-image -jar /workspaces/spring-boot-maven-template/target/ZeaburMaven-0.0.1-SNAPSHOT.jar java-app
-#chmod +x java-app && ./java-app
+# mvn clean package -Dmaven.test.skip=true
+# native-image -jar /workspaces/spring-boot-maven-template/target/ZeaburMaven-0.0.1-SNAPSHOT.jar java-app
+# chmod +x java-app && ./java-app
+
+
+
+#native-image -jar /workspaces/spring-boot-maven-template/target/ZeaburMaven-0.0.1-SNAPSHOT.jar \
+#--no-fallback \
+#--initialize-at-build-time=org.springframework.util.unit.DataSize \
+#--initialize-at-build-time=org.slf4j.MDC \
+#--initialize-at-build-time=ch.qos.logback.classic.Level \
+#--initialize-at-build-time=ch.qos.logback.classic.Logger \
+#--initialize-at-build-time=ch.qos.logback.core.util.StatusPrinter \
+#--initialize-at-build-time=ch.qos.logback.core.status.StatusBase \
+#--initialize-at-build-time=ch.qos.logback.core.status.InfoStatus \
+#--initialize-at-build-time=ch.qos.logback.core.spi.AppenderAttachableImpl \
+#--initialize-at-build-time=org.slf4j.LoggerFactory \
+#--initialize-at-build-time=ch.qos.logback.core.util.Loader \
+#--initialize-at-build-time=org.slf4j.impl.StaticLoggerBinder \
+#--initialize-at-build-time=ch.qos.logback.classic.spi.ThrowableProxy \
+#--initialize-at-build-time=ch.qos.logback.core.CoreConstants \
+#--report-unsupported-elements-at-runtime \
+#--allow-incomplete-classpath \
+#-H:+ReportExceptionStackTraces \
+#java-app
