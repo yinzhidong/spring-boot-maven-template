@@ -1,5 +1,6 @@
-const baseURL = "http://localhost:8080";
+const baseURL = localStorage.getItem("env") === "prod" ? "" : "http://localhost:8080";
 
+// localStorage.setItem("env", "prod")
 
 const parseURL = (uri) => {
     return `${baseURL}${uri}`;

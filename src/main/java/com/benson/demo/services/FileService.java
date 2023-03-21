@@ -1,10 +1,12 @@
 package com.benson.demo.services;
 
 import com.benson.demo.pojos.dto.FileDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
@@ -17,9 +19,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@Slf4j
 public class FileService {
-
-    // private final static String rootPath = "./";
 
     private static String rootPath;
 
@@ -28,7 +29,6 @@ public class FileService {
     public void setRootPath(String rootPath){
         FileService.rootPath = rootPath;
     }
-
 
 
     public List<FileDTO> getFileList(String path) throws IOException {
@@ -62,6 +62,14 @@ public class FileService {
         Files.copy(fullPath, response.getOutputStream());
         response.flushBuffer();
     }
+
+
+
+    public String currentDir() {
+        return System.getProperty("user.dir");
+    }
+
+
 
 
     public byte[] getFileContent(String path) throws IOException {

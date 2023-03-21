@@ -39,7 +39,8 @@ source ~/.bash_aliases
 
 #source /etc/profile
 
-echo -e "export PATH=/workspaces/graalvm-ce-java11-20.3.0/bin:$PATH\nJAVA_HOME=/workspaces/graalvm-ce-java11-20.3.0" >> ~/.bashrc
+echo "export PATH=/workspaces/graalvm-ce-java11-20.3.0/bin:$PATH" >> ~/.bashrc
+echo "JAVA_HOME=/workspaces/graalvm-ce-java11-20.3.0" >> ~/.bashrc
 source ~/.bashrc
 
 

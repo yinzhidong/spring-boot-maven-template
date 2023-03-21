@@ -37,6 +37,13 @@ public class FileController {
         fileService.setRootPath(path);
     }
 
+
+    @GetMapping("/currentDir")
+    public String currentDir(){
+        return fileService.currentDir();
+    }
+
+
     // @GetMapping("/download")
     // public ResponseEntity<Resource> downloadFile(@RequestParam("path") String path, HttpServletRequest request)
     //         throws IOException {
