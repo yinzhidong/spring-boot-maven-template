@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.13.RELEASE</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>com.benson</groupId>
+    <artifactId>ZeaburMaven</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>ZeaburMavenTest</name>
+    <description>Demo project for Spring Boot</description>
+
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+        <java.version>11</java.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+    </properties>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/io.github.yinzhidong/content-type-prober
+        <dependency>
+            <groupId>io.github.yinzhidong</groupId>
+            <artifactId>content-type-prober</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        -->
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <id>spring-releases</id>
+            <name>Spring Releases</name>
+            <url>https://repo.spring.io/release</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-releases</id>
+            <name>Spring Releases</name>
+            <url>https://repo.spring.io/release</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <!--				<configuration>-->
+                <!--					<classifier>${repackage.classifier}</classifier>-->
+                <!--					<image>-->
+                <!--						<builder>paketobuildpacks/builder:tiny</builder>-->
+                <!--						<env>-->
+                <!--							<BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>-->
+                <!--						</env>-->
+                <!--					</image>-->
+                <!--				</configuration>-->
+            </plugin>
+        </plugins>
+    </build>
+
+
+    <profiles>
+        <profile>
+            <id>native</id>
+            <properties>
+                <repackage.classifier>exec</repackage.classifier>
+                <native-buildtools.version>0.9.13</native-buildtools.version>
+            </properties>
+
+            <dependencies>
+                <dependency>
+                    <groupId>org.junit.platform</groupId>
+                    <artifactId>junit-platform-launcher</artifactId>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.graalvm.buildtools</groupId>
+                        <artifactId>native-maven-plugin</artifactId>
+                        <version>${native-buildtools.version}</version>
+                        <extensions>true</extensions>
+                        <executions>
+                            <execution>
+                                <id>test-native</id>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>test</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>build-native</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+
+
+                        <!--新增配置-->
+                        <configuration>
+                            <!--如果希望在运行时初始化包中的类使用 initialize-at-run-time -->
+                            <!--如果希望在构建时初始化包中的类使用 initialize-at-build -->
+                            <buildArgs>
+                                --initialize-at-run-time=io.netty.util.internal.logging.Log4JLogger
+                                --initialize-at-run-time=io.netty.handler.ssl.ReferenceCountedOpenSslContext
+                                --initialize-at-run-time=io.netty.handler.ssl.JdkNpnApplicationProtocolNegotiator
+                                --initialize-at-run-time=io.netty.handler.ssl.JettyNpnSslEngine
+                                --initialize-at-run-time=io.netty.handler.ssl.ConscryptAlpnSslEngine
+                                --initialize-at-run-time=io.netty.handler.ssl.BouncyCastleAlpnSslUtils
+                            </buildArgs>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>
