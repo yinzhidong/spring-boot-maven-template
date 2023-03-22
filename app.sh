@@ -15,6 +15,7 @@ installGraalvm() {
 
 makeAliases() {
 touch ~/.bash_aliases
+source ~/.bash_aliases
 
 cat >~/.bash_aliases<<EOF
 
@@ -42,7 +43,7 @@ source ~/.bash_aliases
 
 flushBashrc() {
   #source /etc/profile
-
+  source ~/.bashrc
   echo "export PATH=/workspaces/graalvm-ce-java11-20.3.0/bin:$PATH" >> ~/.bashrc
   echo "JAVA_HOME=/workspaces/graalvm-ce-java11-20.3.0" >> ~/.bashrc
   source ~/.bashrc
@@ -62,7 +63,9 @@ buildJar() {
 }
 
 
-
+copyJar() {
+  cp /workspaces/spring-boot-maven-template/target/ZeaburMaven-0.0.1-SNAPSHOT.jar /workspaces/spring-boot-maven-template/app.jar
+}
 
 
 
@@ -118,6 +121,9 @@ buildNative() {
 
 
 # 组合函数
+# /workspaces/spring-boot-maven-template
+# localStorage.setItem("env", "prod")
+
 
 initEnv() {
   makeAliases
@@ -139,10 +145,10 @@ case "$1" in
   'runApp')
       runApp
       ;;
-  'runAppDC')
-      runAppDC
+  'copyJar')
+      copyJar
       ;;
   *)
-     echo "Usage: app.sh {initEnv | }"
+     echo "Usage: app.sh {initEnv | copyJar }"
      exit 1
 esac
