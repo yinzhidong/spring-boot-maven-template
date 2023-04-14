@@ -64,10 +64,7 @@ jobs:
 
       - name: Send Feishu Message
         run: |
-          curl 'https://open.feishu.cn/open-apis/bot/v2/hook/${{ FEI_BOOT }}' \
-          -H 'Content-Type: application/json' \
-          -d '
-          {
+          response="$(curl -H "Content-Type: application/json" -X POST -d '{
                 "msg_type": "post",
                 "content": {
                   "post": {
@@ -108,7 +105,8 @@ jobs:
                     }
                   }
                 }
-          }'
+          }' https://open.feishu.cn/open-apis/bot/v2/hook/${{ FEI_BOOT }})"
+          
 
       #  登录Docker  Hub
 #      - name: Login to  Docker  Hub
