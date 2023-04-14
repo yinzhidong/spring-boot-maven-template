@@ -43,6 +43,58 @@ jobs:
           token: ${{ secrets.GACTION_TOKEN }}
 
 
+      - name: Send Feishu Message
+        run: |
+          curl 'https://open.feishu.cn/open-apis/bot/v2/hook/9915ede2-878e-4396-b80f-71b26e55d9be' \
+          -H 'Content-Type: application/json' \
+          -d '
+          {
+                "msg_type": "post",
+                "content": {
+                  "post": {
+                    "zh_cn": {
+                      "title": "我是一个标题",
+                      "content": [
+                        [
+                          {
+                            "tag": "text",
+                            "un_escape": true,
+                            "text": "第一行&nbsp;:"
+                          },
+                          {
+                            "tag": "a",
+                            "text": "超链接",
+                            "href": "http://www.feishu.cn"
+                          },
+                          {
+                            "tag": "at",
+                            "user_id": "ou_18eac85d35a26f989317ad4f02e8bbbb"
+                          }
+                        ],
+                        [
+                          {
+                            "tag": "text",
+                            "text": "第二行 :"
+                          },
+                          {
+                            "tag": "text",
+                            "text": "文本测试"
+                          }
+                        ],
+                        [
+                          {
+                            "tag": "img",
+                            "image_key": "d640eeea-4d2f-4cb3-88d8-c964fab53987",
+                            "width": 300,
+                            "height": 300
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+          }'
+
       #  登录Docker  Hub
 #      - name: Login to  Docker  Hub
 #        uses: docker/login-action@v1
