@@ -125,3 +125,18 @@ java-app
 
 
 ```
+
+
+
+
+#### Github Actions自动化工作流
+
+```shell
+
+https://juejin.cn/post/7006524441798639653
+
+
+
+https://open.feishu.cn/document/ukTMukTMukTM/uMDMxEjLzATMx4yMwETM
+
+```

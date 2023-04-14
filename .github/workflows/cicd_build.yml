@@ -12,13 +12,31 @@ on:
 jobs:
   compile:
     runs-on: ubuntu-latest
+    env:
+      JAR_NAME: zeabur-app
+
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 8
         uses: actions/setup-java@v2
         with:
           java-version: '11'
-          distribution: 'adopt'
+          distribution: 'zulu'
+#          distribution: 'adopt'
+
+      - name: Set environment variables from pom.xml
+        env:
+          PROJECT_NAME: ${{steps.set_project_name.outputs.project_name}}
+          PROJECT_VERSION: ${{steps.set_project_version.outputs.project_version}}
+        run: |
+          mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate \
+              -Dexpression=project.artifactId -q -DforceStdout \
+              | tee /dev/stderr \
+              | (read -r; printf "%s" "$REPLY" > $GITHUB_ENV)
+          mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate \
+            -Dexpression=project.version -q -DforceStdout \
+            | tee /dev/stderr \
+            | (read -r; printf "%s" "$REPLY" > $GITHUB_ENV)
 
       #  maven缓存，不加的话每次都会去重新拉取，会影响速度
       - name: Dependies Cache
@@ -32,6 +50,7 @@ jobs:
       #  编译打包
       - name: Build with Maven
         run: mvn package -Dmaven.test.skip=true
+#        run: mvn -B package --file pom.xml
 
       - name: Upload files
         # arg info: https://github.com/ncipollo/release-action#release-action
@@ -45,7 +64,7 @@ jobs:
 
       - name: Send Feishu Message
         run: |
-          curl 'https://open.feishu.cn/open-apis/bot/v2/hook/9915ede2-878e-4396-b80f-71b26e55d9be' \
+          curl 'https://open.feishu.cn/open-apis/bot/v2/hook/${{ FEI_BOOT }}' \
           -H 'Content-Type: application/json' \
           -d '
           {
@@ -53,7 +72,7 @@ jobs:
                 "content": {
                   "post": {
                     "zh_cn": {
-                      "title": "我是一个标题",
+                      "title": "我是一个标题----${{ env.PROJECT_NAME }}----${{ env.PROJECT_VERSION }}",
                       "content": [
                         [
                           {
@@ -63,12 +82,8 @@ jobs:
                           },
                           {
                             "tag": "a",
-                            "text": "超链接",
-                            "href": "http://www.feishu.cn"
-                          },
-                          {
-                            "tag": "at",
-                            "user_id": "ou_18eac85d35a26f989317ad4f02e8bbbb"
+                            "text": "下载资源",
+                            "href": "https://github.com/yinzhidong/spring-boot-maven-template/releases/download/V0.1.0/${{ env.PROJECT_NAME }}-${{ env.PROJECT_VERSION }}.jar"
                           }
                         ],
                         [
@@ -78,7 +93,7 @@ jobs:
                           },
                           {
                             "tag": "text",
-                            "text": "文本测试"
+                            "text": "文本测试-${{ env.JAR_NAME }}"
                           }
                         ],
                         [
