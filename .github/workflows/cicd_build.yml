@@ -1,17 +1,13 @@
-name: Build SpringBoot App Man with Cache
+name: Build SpringBoot App PushOrCreateEvent with Cache
 
 on:
-  workflow_dispatch:
-    inputs:
-      version:
-        description: "tag version"
-        required: true
-        default: "V0.1.0"
-      is_pre_release:
-        description: "pre-release or release, if true, is pre-release"
-        required: true
-        type: boolean
-        default: true
+  push:
+    branches: [ main ]
+#  pull_request:
+#    branches: [ main ]
+  create:
+    tags:
+      - "V*"
 
 jobs:
   compile:
@@ -42,10 +38,10 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
-          prerelease: ${{ inputs.is_pre_release }}
           artifacts: "target/*.jar"
-          tag: ${{ inputs.version }}
+          tag: V0.1.0
           token: ${{ secrets.GACTION_TOKEN }}
+
 
       #  登录Docker  Hub
 #      - name: Login to  Docker  Hub
