@@ -53,7 +53,8 @@ jobs:
           allowUpdates: true
           prerelease: ${{ inputs.is_pre_release }}
           artifacts: "target/*.jar"
-          tag: ${{ inputs.version }}
+#          tag: ${{ inputs.version }}
+          tag: V0.1.0
           token: ${{ secrets.GACTION_TOKEN }}
 
       #  登录Docker  Hub
