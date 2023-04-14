@@ -4,12 +4,12 @@ on:
   push:
     branches: [ main ]
     tags:
-      - "V*"
+    - "*"
   pull_request:
     branches: [ main ]
   create:
     tags:
-      - "V*"
+    - "*"
   workflow_dispatch:
     inputs:
       version:
