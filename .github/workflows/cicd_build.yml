@@ -83,7 +83,7 @@ jobs:
                             "tag": "a",
                             "text": "${{ env.PROJECT_NAME }}",
                             "href": "https://github.com/${{ github.repository }}/releases/tag/${{ env.TAG }}"
-                          },
+                          }
                         ],
                         [
                           {
