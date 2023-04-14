@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       JAR_NAME: zeabur-app
+      TAG: V0.1.0
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 8
@@ -54,7 +55,7 @@ jobs:
         with:
           allowUpdates: true
           artifacts: "target/*.jar"
-          tag: V0.1.0
+          tag: ${{ env.TAG }}
           token: ${{ secrets.GACTION_TOKEN }}
 
 
@@ -77,7 +78,12 @@ jobs:
                             "tag": "a",
                             "text": "${{ env.PROJECT_NAME }}",
                             "href": "https://github.com/yinzhidong/spring-boot-maven-template/releases/download/V0.1.0/${{ env.PROJECT_NAME }}-${{ env.PROJECT_VERSION }}.jar"
-                          }
+                          },
+                          {
+                            "tag": "a",
+                            "text": "${{ env.PROJECT_NAME }}",
+                            "href": "https://github.com/${{ github.repository }}/releases/tag/${{ env.TAG }}"
+                          },
                         ],
                         [
                           {
