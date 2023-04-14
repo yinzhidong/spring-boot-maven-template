@@ -14,7 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       JAR_NAME: zeabur-app
-
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 8
@@ -66,28 +65,18 @@ jobs:
                 "content": {
                   "post": {
                     "zh_cn": {
-                      "title": "我是一个标题----${{ env.PROJECT_NAME }}----${{ env.PROJECT_VERSION }}",
+                      "title": "应用${{ env.PROJECT_NAME }} 构建完成",
                       "content": [
                         [
                           {
                             "tag": "text",
                             "un_escape": true,
-                            "text": "第一行&nbsp;:"
+                            "text": "点击下载 :"
                           },
                           {
                             "tag": "a",
-                            "text": "下载资源",
+                            "text": "${{ env.PROJECT_NAME }}",
                             "href": "https://github.com/yinzhidong/spring-boot-maven-template/releases/download/V0.1.0/${{ env.PROJECT_NAME }}-${{ env.PROJECT_VERSION }}.jar"
-                          }
-                        ],
-                        [
-                          {
-                            "tag": "text",
-                            "text": "第二行 :"
-                          },
-                          {
-                            "tag": "text",
-                            "text": "文本测试-${{ env.JAR_NAME }}"
                           }
                         ],
                         [
