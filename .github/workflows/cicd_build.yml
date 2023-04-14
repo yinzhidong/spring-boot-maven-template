@@ -29,14 +29,10 @@ jobs:
           PROJECT_NAME: ${{steps.set_project_name.outputs.project_name}}
           PROJECT_VERSION: ${{steps.set_project_version.outputs.project_version}}
         run: |
-          mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate \
-              -Dexpression=project.artifactId -q -DforceStdout \
-              | tee /dev/stderr \
-              | (read -r; printf "%s" "$REPLY" > $GITHUB_ENV)
-          mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate \
-            -Dexpression=project.version -q -DforceStdout \
-            | tee /dev/stderr \
-            | (read -r; printf "%s" "$REPLY" > $GITHUB_ENV)
+          PROJECT_NAME=$(mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.artifactId -q -DforceStdout)
+          echo "artifactId=$ARTIFACT_ID" >> $GITHUB_ENV
+          PROJECT_VERSION=$(mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "version=$VERSION" >> $GITHUB_ENV
 
       #  maven缓存，不加的话每次都会去重新拉取，会影响速度
       - name: Dependies Cache
