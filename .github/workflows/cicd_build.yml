@@ -105,7 +105,7 @@ jobs:
                     }
                   }
                 }
-          }' https://open.feishu.cn/open-apis/bot/v2/hook/${{ FEI_BOOT }})"
+          }' https://open.feishu.cn/open-apis/bot/v2/hook/${{ secrets.FEI_BOOT }})"
           
 
       #  登录Docker  Hub
