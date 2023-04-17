@@ -24,7 +24,7 @@ jobs:
           distribution: 'zulu'
 #          distribution: 'adopt'
 
-      - name: Set environment variables from pom.xml
+      - name: Set environment variables from pom
 #        id: set_project_name
 #        env:
 #          PROJECT_NAME: ${{steps.set_project_name.outputs.project_name}}
